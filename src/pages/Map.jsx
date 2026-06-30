@@ -19,8 +19,14 @@ import UpdateLocation from "../components/UpdateLocation";
 
 function Map({ darkMode, setDarkMode }) {
   const { user } = useAuth();
-  const { currentTrip, endTrip, updateLocation, loading: tripLoading } = useTrip();
-  const [current, setCurrent] = useState({});
+  const {
+    currentTrip,
+    endTrip,
+    updateLocation,
+    loading: tripLoading,
+    current,
+    setCurrent,
+  } = useTrip();
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
   const [buses, setBuses] = useState([]);
@@ -54,7 +60,7 @@ function Map({ darkMode, setDarkMode }) {
     navigator.geolocation.watchPosition(success, error, options);
   }, []);
 
-  const getBuses =  async () => {
+  const getBuses = async () => {
     try {
       const { data: coords, error } = await supabase
         .from("coords")
@@ -75,12 +81,14 @@ function Map({ darkMode, setDarkMode }) {
   useEffect(() => {
     getBuses();
   }, [currentTrip]);
-  
+
   useEffect(() => {
     const reloadBuses = setInterval(getBuses, 15000);
-    
+
     return () => clearInterval(reloadBuses);
   }, []);
+
+  console.log(currentTrip);
 
   return (
     <div className="relative flex items-center justify-center h-screen w-full">
@@ -208,16 +216,18 @@ function Map({ darkMode, setDarkMode }) {
                 : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             }
           />
-          {!currentTrip && <CircleMarker
-            center={[current.latitude, current.longitude]}
-            radius={8}
-            pathOptions={{
-              color: "#ffffff",
-              fillColor: "#3b82f6",
-              fillOpacity: 1,
-              weight: 2,
-            }}
-          ></CircleMarker>}
+          {!currentTrip && (
+            <CircleMarker
+              center={[current.latitude, current.longitude]}
+              radius={8}
+              pathOptions={{
+                color: "#ffffff",
+                fillColor: "#3b82f6",
+                fillOpacity: 1,
+                weight: 2,
+              }}
+            ></CircleMarker>
+          )}
           {buses.length > 0 &&
             buses.map((bus) => (
               <CircleMarker
@@ -226,7 +236,10 @@ function Map({ darkMode, setDarkMode }) {
                 radius={10}
                 pathOptions={{
                   color: "#ffffff",
-                  fillColor: currentTrip && bus.user_id === user.id ? "#f0b100" :"#fb2c36",
+                  fillColor:
+                    currentTrip && bus.user_id === user.id
+                      ? "#f0b100"
+                      : "#fb2c36",
                   fillOpacity: 1,
                   weight: 2,
                 }}
@@ -236,7 +249,7 @@ function Map({ darkMode, setDarkMode }) {
       ) : (
         <p>{loadError}</p>
       )}
-      {currentTrip && <UpdateLocation current={current}/>}
+      {currentTrip && <UpdateLocation />}
     </div>
   );
 }

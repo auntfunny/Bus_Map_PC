@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { useTrip } from '../context/TripContext';
 import { useAuth } from '../context/AuthContext';
 
-const UpdateLocation = ({current}) => {
+const UpdateLocation = () => {
     const { user } = useAuth();
-    const { currentTrip, updateLocation } = useTrip();
+    const { current, currentTrip, updateLocation } = useTrip();
     useEffect(() => {
     if (user && currentTrip) {
-      updateLocation(current);
+      updateLocation(current, true);
       const loadLocation = setInterval(async () => {
         updateLocation(current);
       }, 15000);

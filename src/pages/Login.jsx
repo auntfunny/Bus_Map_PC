@@ -2,9 +2,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import Spinner from "../components/Spinner";
+import { useTrip } from "../context/TripContext";
 
 export default function Login() {
   const { login, loading } = useAuth();
+  const { current, updateLocation } = useTrip();
   const [error, setError] = useState(null);
   const [togglePassword, setTogglePassword] = useState(true);
   const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -25,13 +27,14 @@ export default function Login() {
       return;
     }
     try {
-      const { success, error: loginError } = await login(
+      const { success, user, error: loginError } = await login(
         credentials.email,
         credentials.password,
       );
       if (!success) {
         throw loginError;
       }
+      updateLocation(current, false, user.id);
       navigate("/");
     } catch (err) {
       setError(err.message);

@@ -7,6 +7,7 @@ const TripContext = createContext();
 export const TripProvider = ({ children }) => {
   const { user } = useAuth();
   const [currentTrip, setCurrentTrip] = useState(null);
+  const [current, setCurrent] = useState({});
   const [loading, setLoading] = useState(false);
 
   const startTrip = async (trip) => {
@@ -74,8 +75,7 @@ export const TripProvider = ({ children }) => {
     }
   }, [user]);
 
-
-  const updateLocation = async ({ latitude, longitude }) => {
+  const updateLocation = async ({ latitude, longitude }, trip, id) => {
     try {
       const { data, error } = await supabase
         .from("coords")
@@ -83,10 +83,11 @@ export const TripProvider = ({ children }) => {
           latitude: latitude,
           longitude: longitude,
         })
-        .eq("user_id", user.id)
+        .eq("user_id", id || user.id)
         .select();
-
-      setCurrentTrip(data);
+      if (trip) {
+        setCurrentTrip(data);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -94,7 +95,15 @@ export const TripProvider = ({ children }) => {
 
   return (
     <TripContext.Provider
-      value={{ currentTrip, startTrip, endTrip, updateLocation, loading }}
+      value={{
+        currentTrip,
+        startTrip,
+        endTrip,
+        updateLocation,
+        loading,
+        current,
+        setCurrent,
+      }}
     >
       {children}
     </TripContext.Provider>
