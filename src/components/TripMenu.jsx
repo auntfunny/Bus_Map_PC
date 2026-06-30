@@ -88,7 +88,7 @@ const TripMenu = ({ close }) => {
               required
               onChange={handleChange}
               value={tripInfo.departure}
-              className="w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-stone-50 text-stone-800 font-medium transition-all focus:outline-none focus:ring-2 focus:ring-accgreen/20 focus:border-accgreen dark:border-stone-800 dark:bg-stone-950 dark:text-stone-200 dark:focus:border-accgreen"
+              className="w-7/8 md:w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-stone-50 text-stone-800 font-medium transition-all focus:outline-none focus:ring-2 focus:ring-accgreen/20 focus:border-accgreen dark:border-stone-800 dark:bg-stone-950 dark:text-stone-200 dark:focus:border-accgreen"
             />
           </div>
 
