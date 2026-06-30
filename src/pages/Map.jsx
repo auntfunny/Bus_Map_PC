@@ -88,8 +88,6 @@ function Map({ darkMode, setDarkMode }) {
     return () => clearInterval(reloadBuses);
   }, []);
 
-  console.log(currentTrip);
-
   return (
     <div className="relative flex items-center justify-center h-screen w-full">
       {menuToggle && <Menu close={() => setMenuToggle(false)} />}
