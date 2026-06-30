@@ -29,7 +29,7 @@ function Map({ darkMode, setDarkMode }) {
   const timerRef = useRef(null);
   const options = {
     enableHighAccuracy: true,
-    timeout: 10000,
+    timeout: 15000,
     maximumAge: 0,
   };
 
@@ -161,7 +161,7 @@ function Map({ darkMode, setDarkMode }) {
           </svg>
         </button>
       )}
-      <button
+      {/* <button
         onClick={() => setDarkMode(!darkMode)}
         type="button"
         className="group fixed bottom-5 right-5 p-2.5 z-500 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-300 ease-in-out border text-stone-700 bg-white/80 border-stone-200/60 shadow-[0_2px_8px_-3px_rgba(0,0,0,0.05)] hover:scale-105 active:scale-95 hover:bg-white hover:text-accblue2 dark:bg-stone-900/60 dark:border-stone-800/80 dark:text-stone-300 dark:hover:bg-stone-900 dark:hover:text-accsage dark:shadow-[0_4px_12px_-5px_rgba(0,0,0,0.3)]"
@@ -190,7 +190,7 @@ function Map({ darkMode, setDarkMode }) {
             />
           </svg>
         )}
-      </button>
+      </button> */}
       {loading && !loadError ? (
         <div className="w-20 h-20 rounded-full border-6 border-gray-500 border-t-blue-600 animate-spin"></div>
       ) : !loadError ? (
